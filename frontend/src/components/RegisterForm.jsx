@@ -101,7 +101,7 @@ function RegisterForm({ onSuccess }) {
             Crear Cuenta
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Únete a NutriYess y gestiona tus pacientes profesionalmente
+            Brinda atención nutricional de manera profesional
           </p>
           <div className="mt-4 bg-green-50 border border-green-200 rounded-md p-4">
             <div className="text-center">
