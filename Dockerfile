@@ -1,4 +1,4 @@
-# Dockerfile para NutriYess Backend
+# Dockerfile para NutriYess Backend - Versión Simple
 FROM python:3.11-slim
 
 # Establecer directorio de trabajo
@@ -19,13 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copiar código de la aplicación
 COPY backend/ .
 
-# Crear usuario no-root
-RUN useradd --create-home --shell /bin/bash app
-RUN chown -R app:app /app
-USER app
-
 # Exponer puerto
 EXPOSE 8000
 
-# Comando de inicio - usar versión simple primero
-CMD ["sh", "-c", "python -m uvicorn main_simple:app --host 0.0.0.0 --port ${PORT:-8000}"]
+# Comando de inicio - versión simple que funciona
+CMD ["python", "-m", "uvicorn", "main_simple:app", "--host", "0.0.0.0", "--port", "8000"]
