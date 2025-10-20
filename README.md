@@ -121,6 +121,11 @@ npm run dev
 
 ## 💰 Modelo de Comercialización
 
+### Trial Gratuito: 30 días
+- Hasta 3 pacientes
+- Todas las funciones
+- Sin compromiso
+
 ### Plan Básico: $29/mes
 - Hasta 50 pacientes
 - Funciones básicas

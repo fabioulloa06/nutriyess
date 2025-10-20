@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import patients, menus, meal_plans, consultations, food_exchanges, snacks, preferences
+from api.routes import patients, menus, meal_plans, consultations, food_exchanges, snacks, preferences, auth
 from database import engine, Base
 
 # Create database tables
@@ -22,6 +22,7 @@ app.add_middleware(
 )
 
 # Include routers
+app.include_router(auth.router, prefix="/api/auth", tags=["Autenticación"])
 app.include_router(patients.router, prefix="/api/patients", tags=["Pacientes"])
 app.include_router(menus.router, prefix="/api/menus", tags=["Menús"])
 app.include_router(meal_plans.router, prefix="/api/meal-plans", tags=["Planes Alimenticios"])

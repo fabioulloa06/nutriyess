@@ -5,6 +5,7 @@ from datetime import date
 
 from database import get_db
 from models.patient import Patient, Gender, ActivityLevel, PatientType
+from models.user import User
 from pydantic import BaseModel
 from utils.nutrition_calculations import (
     calculate_bmi,
@@ -14,6 +15,7 @@ from utils.nutrition_calculations import (
     get_bmi_category,
     calculate_age
 )
+from utils.auth import get_current_user, check_subscription_status, get_patient_limit
 
 router = APIRouter()
 
