@@ -1,0 +1,14 @@
+# Railway Configuration
+# Este archivo configura el despliegue automático en Railway
+
+# Variables de entorno para Railway
+DATABASE_URL=${{RAILWAY_DATABASE_URL}}
+ENVIRONMENT=production
+DEBUG=False
+SECRET_KEY=${{RAILWAY_SECRET_KEY}}
+
+# Puerto (Railway lo asigna automáticamente)
+PORT=${{PORT:-8000}}
+
+# CORS para producción
+ALLOWED_ORIGINS=https://nutriyess.vercel.app,https://nutriyess.netlify.app

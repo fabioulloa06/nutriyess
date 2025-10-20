@@ -1,0 +1,89 @@
+╔══════════════════════════════════════════════════════════╗
+║                                                          ║
+║        CÓMO INICIAR NUTRIYESS - INSTRUCCIONES           ║
+║                                                          ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 PASOS PARA INICIAR LA APLICACIÓN:
+
+1️⃣  HAZ DOBLE CLIC EN: START_BACKEND.bat
+   → Se abrirá una ventana negra
+   → Espera a ver: "Application startup complete"
+   → ¡NO CIERRES esta ventana!
+
+2️⃣  HAZ DOBLE CLIC EN: START_FRONTEND.bat
+   → Se abrirá otra ventana negra
+   → Espera unos segundos
+   → Tu navegador se abrirá automáticamente
+   → ¡NO CIERRES esta ventana!
+
+3️⃣  NAVEGA A:
+   → Frontend: http://localhost:5173
+   → API Docs: http://localhost:8000/docs
+
+═══════════════════════════════════════════════════════════
+
+✅ VERIFICAR QUE TODO FUNCIONA:
+
+1. Backend:
+   - Abre: http://localhost:8000/docs
+   - Deberías ver la documentación de la API
+
+2. Frontend:
+   - Abre: http://localhost:5173
+   - Deberías ver la página de inicio de NutriYess
+
+═══════════════════════════════════════════════════════════
+
+📚 PRIMEROS PASOS EN LA APLICACIÓN:
+
+1. Cargar datos iniciales:
+   - Ve a "Menús" → Click "Cargar Menús Predefinidos"
+   - Ve a "Intercambios" → Click "Cargar Lista Predefinida"
+   - Ve a "Snacks" → Click "Cargar Snacks Predefinidos"
+
+2. Crear tu primer paciente:
+   - Ve a "Pacientes"
+   - Click en "Nuevo Paciente"
+   - Completa el formulario
+   - ¡Los cálculos se hacen automáticamente!
+
+═══════════════════════════════════════════════════════════
+
+❌ SI ALGO NO FUNCIONA:
+
+- Backend no inicia:
+  → Verifica que la ventana de START_BACKEND.bat muestre
+    "Application startup complete"
+
+- Frontend no abre:
+  → Verifica que Node.js esté instalado: node --version
+  → Cierra ambas ventanas y vuelve a intentar
+
+- Error de puerto en uso:
+  → Cierra todas las ventanas negras
+  → Abre el Administrador de Tareas
+  → Busca procesos "python.exe" o "node.exe" y termínalos
+  → Vuelve a iniciar
+
+═══════════════════════════════════════════════════════════
+
+💡 CONSEJOS:
+
+• Siempre inicia el BACKEND primero, luego el FRONTEND
+• Mantén ambas ventanas abiertas mientras uses la app
+• Para detener: Presiona Ctrl+C en cada ventana o ciérralas
+
+═══════════════════════════════════════════════════════════
+
+🆘 ¿NECESITAS AYUDA?
+
+Consulta:
+- README.md - Documentación completa
+- QUICK_START.md - Guía rápida
+- http://localhost:8000/docs - Documentación de API
+
+═══════════════════════════════════════════════════════════
+
+¡Disfruta usando NutriYess! 🥗💚
+
