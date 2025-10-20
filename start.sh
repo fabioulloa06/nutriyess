@@ -7,10 +7,14 @@ echo "🚀 Iniciando NutriYess en Railway..."
 echo "📦 Instalando dependencias..."
 pip install -r requirements.txt
 
-# Crear tablas de base de datos
-echo "🗄️ Creando tablas de base de datos..."
-python -c "from database import engine, Base; Base.metadata.create_all(bind=engine)"
+# Crear tablas de base de datos (solo si hay DATABASE_URL)
+if [ ! -z "$DATABASE_URL" ]; then
+    echo "🗄️ Creando tablas de base de datos..."
+    python -c "from database import engine, Base; Base.metadata.create_all(bind=engine)"
+else
+    echo "⚠️ No hay DATABASE_URL configurada, usando SQLite local"
+fi
 
 # Iniciar servidor
 echo "🌐 Iniciando servidor..."
-uvicorn main:app --host 0.0.0.0 --port $PORT
+uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info
