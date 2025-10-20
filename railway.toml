@@ -2,4 +2,4 @@
 # Configuración robusta para Railway
 
 [deploy]
-startCommand = "python start_railway.py"
+startCommand = "bash start.sh"

@@ -1,16 +1,16 @@
 #!/bin/bash
-# Script de inicio para Railway
+# Script de inicio simple para Railway
 
 echo "🚀 Iniciando NutriYess en Railway..."
 
 # Instalar dependencias
 echo "📦 Instalando dependencias..."
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 
 # Crear tablas de base de datos (solo si hay DATABASE_URL)
 if [ ! -z "$DATABASE_URL" ]; then
     echo "🗄️ Creando tablas de base de datos..."
-    python -c "from database import engine, Base; Base.metadata.create_all(bind=engine)"
+    python3 -c "from database import engine, Base; Base.metadata.create_all(bind=engine)"
 else
     echo "⚠️ No hay DATABASE_URL configurada, usando SQLite local"
 fi
