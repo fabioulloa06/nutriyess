@@ -29,4 +29,5 @@ EXPOSE 8000
 # Comando de inicio
 # Usa el puerto dinámico que Railway asigna mediante la variable de entorno $PORT.
 # Si no existe (modo local), usa el puerto 8000.
-CMD ["sh", "-c", "python -m uvicorn main_simple:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "python -m uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}"]
+
