@@ -5,8 +5,10 @@ from .consultation import Consultation
 from .food_exchange import FoodExchange, FoodExchangeCategory
 from .snack import Snack, SnackCategory
 from .patient_preferences import PatientPreferences
+from .user import User
 
 __all__ = [
+    "User",
     "Patient",
     "Menu",
     "MenuCategory",
