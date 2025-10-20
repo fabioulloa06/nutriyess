@@ -56,6 +56,10 @@ def check_subscription_status(user):
     """Check if user's subscription is active."""
     now = datetime.now()
     
+    # Administradores siempre tienen acceso ilimitado
+    if user.role == "admin":
+        return True, "Administrator - Unlimited access"
+    
     if user.subscription_status == "trial":
         if now > user.trial_end_date:
             return False, "Trial period expired"
@@ -71,6 +75,10 @@ def check_subscription_status(user):
 
 def get_patient_limit(user):
     """Get patient limit based on subscription plan."""
+    # Administradores tienen acceso ilimitado
+    if user.role == "admin":
+        return -1  # Unlimited
+    
     limits = {
         "trial": 3,  # Trial limit
         "basic": 50,
@@ -83,3 +91,7 @@ def get_patient_limit(user):
         return limits["trial"]
     
     return limits.get(user.subscription_plan, 3)
+
+def is_admin(user):
+    """Check if user is an administrator."""
+    return user.role == "admin"
