@@ -1,22 +1,26 @@
-# Dockerfile para NutriYess Backend - Versión Ultra Simple
+# Dockerfile para NutriYess Backend (Railway)
 FROM python:3.11-slim
 
 # Establecer directorio de trabajo
 WORKDIR /app
 
-# Instalar dependencias del sistema
+# Instalar dependencias del sistema necesarias
 RUN apt-get update && apt-get install -y \
     gcc \
+    postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-# Instalar solo FastAPI y uvicorn
-RUN pip install fastapi uvicorn
+# Copiar dependencias
+COPY backend/requirements.txt .
 
-# Copiar solo el archivo de la aplicación
-COPY backend/app.py .
+# Instalar dependencias de Python
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Exponer puerto
+# Copiar código de la aplicación
+COPY backend/ .
+
+# Exponer el puerto (Railway usará su propio $PORT)
 EXPOSE 8000
 
-# Comando de inicio - versión ultra simple
-CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Comando de inicio — usa el puerto asignado por Railway
+CMD ["bash", "-c", "uvicorn main_simple:app --host 0.0.0.0 --port ${PORT:-8000}"]
