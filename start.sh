@@ -3,9 +3,9 @@
 
 echo "🚀 Iniciando NutriYess en Railway..."
 
-# Instalar dependencias
+# Instalar dependencias usando python3 -m pip
 echo "📦 Instalando dependencias..."
-pip3 install -r requirements.txt
+python3 -m pip install -r requirements.txt
 
 # Crear tablas de base de datos (solo si hay DATABASE_URL)
 if [ ! -z "$DATABASE_URL" ]; then
@@ -15,6 +15,6 @@ else
     echo "⚠️ No hay DATABASE_URL configurada, usando SQLite local"
 fi
 
-# Iniciar servidor
+# Iniciar servidor usando python3 -m uvicorn
 echo "🌐 Iniciando servidor..."
-uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info
+python3 -m uvicorn main:app --host 0.0.0.0 --port $PORT --log-level info

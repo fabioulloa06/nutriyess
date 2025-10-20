@@ -1,1 +1,1 @@
-web: bash start.sh
+web: python3 -m pip install -r requirements.txt && python3 -c "from database import engine, Base; Base.metadata.create_all(bind=engine)" && python3 -m uvicorn main:app --host 0.0.0.0 --port $PORT
