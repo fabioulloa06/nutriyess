@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import patients, menus, meal_plans, consultations, food_exchanges, snacks, preferences, auth
+from api.routes import patients_auth, menus, meal_plans, consultations, food_exchanges, snacks, preferences, auth
 from database import engine, Base
 
 # Create database tables
@@ -15,7 +15,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173", "https://nutriyess.vercel.app"],
+    allow_origins=["http://localhost:3000", "http://localhost:5173", "https://nutriyess-frontend.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -23,7 +23,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(auth.router, prefix="/api/auth", tags=["Autenticación"])
-app.include_router(patients.router, prefix="/api/patients", tags=["Pacientes"])
+app.include_router(patients_auth.router, prefix="/api/patients", tags=["Pacientes"])
 app.include_router(menus.router, prefix="/api/menus", tags=["Menús"])
 app.include_router(meal_plans.router, prefix="/api/meal-plans", tags=["Planes Alimenticios"])
 app.include_router(consultations.router, prefix="/api/consultations", tags=["Consultas"])

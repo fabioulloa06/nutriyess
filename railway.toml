@@ -1,5 +1,5 @@
 # Railway Configuration
-# Configuración simple para Railway
+# Configuración robusta para Railway
 
 [deploy]
-startCommand = "uvicorn main:app --host 0.0.0.0 --port $PORT"
+startCommand = "python start_railway.py"
