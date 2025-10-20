@@ -2,9 +2,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import patients_auth, menus, meal_plans, consultations, food_exchanges, snacks, preferences, auth
 from database import engine, Base
+import logging
 
-# Create database tables
-Base.metadata.create_all(bind=engine)
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(
     title="NutriYess API",
@@ -30,6 +32,17 @@ app.include_router(consultations.router, prefix="/api/consultations", tags=["Con
 app.include_router(food_exchanges.router, prefix="/api/food-exchanges", tags=["Intercambios"])
 app.include_router(snacks.router, prefix="/api/snacks", tags=["Snacks"])
 app.include_router(preferences.router, prefix="/api/preferences", tags=["Preferencias"])
+
+@app.on_event("startup")
+async def startup_event():
+    """Create database tables on startup"""
+    try:
+        logger.info("Creating database tables...")
+        Base.metadata.create_all(bind=engine)
+        logger.info("Database tables created successfully")
+    except Exception as e:
+        logger.error(f"Error creating database tables: {e}")
+        # Don't fail startup if database creation fails
 
 @app.get("/")
 def root():
