@@ -1,36 +1,32 @@
-# Dockerfile para Backend NutriYess
+# ==============================
+# Dockerfile para NutriYess Backend - Compatible con Railway
+# ==============================
+
+# Imagen base ligera de Python 3.11
 FROM python:3.11-slim
 
-# Establecer directorio de trabajo
+# Establecer directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Instalar dependencias del sistema
+# Instalar dependencias del sistema necesarias (gcc, cliente PostgreSQL, etc.)
 RUN apt-get update && apt-get install -y \
     gcc \
     postgresql-client \
-    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar requirements primero (para mejor cache)
+# Copiar el archivo de dependencias primero para aprovechar la caché de Docker
 COPY backend/requirements.txt .
 
 # Instalar dependencias de Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiar código de la aplicación
+# Copiar el resto del código fuente del backend
 COPY backend/ .
 
-# Crear usuario no-root
-RUN useradd --create-home --shell /bin/bash app
-RUN chown -R app:app /app
-USER app
-
-# Exponer puerto
+# Exponer el puerto por defecto (8000) para desarrollo local
 EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
-
 # Comando de inicio
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Usa el puerto dinámico que Railway asigna mediante la variable de entorno $PORT.
+# Si no existe (modo local), usa el puerto 8000.
+CMD ["sh", "-c", "python -m uvicorn main_simple:app --host 0.0.0.0 --port ${PORT:-8000}"]
