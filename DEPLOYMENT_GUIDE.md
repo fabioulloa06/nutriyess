@@ -1,147 +1,165 @@
-# NutriYess - Guía de Despliegue Gratuito
+# Guía de Despliegue en Producción
+# ================================
 
-## 🚀 DESPLIEGUE GRATUITO EN LA NUBE
+## 🌐 Arquitectura Final
 
-### 📋 REQUISITOS PREVIOS
-- Cuenta en GitHub (gratuita)
-- Cuenta en Railway (gratuita)
-- Cuenta en Vercel (gratuita)
+### Frontend (Vercel)
+- URL: https://nutriyess-frontend.vercel.app/
+- Costo: GRATIS
+- Características: CDN global, SSL automático, despliegue desde GitHub
 
----
+### Backend (Tu Servidor/VPS)
+- URL: https://tu-dominio.com/api
+- Costo: $5-20/mes (dependiendo del proveedor)
+- Características: Control total, PostgreSQL incluida, escalable
 
-## 🚂 PASO 1: CONFIGURAR RAILWAY (BACKEND)
+## 🚀 Opciones de Servidor
 
-### 1.1 Crear cuenta en Railway
-1. Ve a [railway.app](https://railway.app)
-2. Regístrate con GitHub
-3. Conecta tu repositorio
-
-### 1.2 Configurar el proyecto
-1. Clic en "New Project"
-2. Selecciona "Deploy from GitHub repo"
-3. Elige tu repositorio NutriYess
-4. Railway detectará automáticamente el backend
-
-### 1.3 Configurar base de datos
-1. En Railway, clic en "New" → "Database" → "PostgreSQL"
-2. Railway creará automáticamente la variable `DATABASE_URL`
-3. Tu backend se conectará automáticamente
-
-### 1.4 Variables de entorno en Railway
-```
-ENVIRONMENT=production
-DEBUG=False
-SECRET_KEY=tu-clave-secreta-muy-larga-y-segura
-ALLOWED_ORIGINS=https://nutriyess.vercel.app
+### 1. DigitalOcean Droplet
+```bash
+# Droplet básico: $6/mes
+# 1GB RAM, 1 CPU, 25GB SSD
+# Ubuntu 22.04 LTS
 ```
 
----
-
-## ⚡ PASO 2: CONFIGURAR VERCEL (FRONTEND)
-
-### 2.1 Crear cuenta en Vercel
-1. Ve a [vercel.com](https://vercel.com)
-2. Regístrate con GitHub
-3. Conecta tu repositorio
-
-### 2.2 Configurar el proyecto
-1. Clic en "New Project"
-2. Selecciona tu repositorio NutriYess
-3. Configura:
-   - **Framework Preset:** Vite
-   - **Root Directory:** frontend
-   - **Build Command:** npm run build
-   - **Output Directory:** dist
-
-### 2.3 Variables de entorno en Vercel
-```
-VITE_API_URL=https://tu-proyecto.up.railway.app/api
+### 2. AWS EC2
+```bash
+# t3.micro: $8.50/mes (primer año gratis)
+# 1GB RAM, 1 CPU, 8GB SSD
 ```
 
----
+### 3. Google Cloud Platform
+```bash
+# e2-micro: $6/mes
+# 1GB RAM, 1 CPU, 10GB SSD
+```
 
-## 🔧 PASO 3: CONFIGURAR LA APLICACIÓN
+### 4. Vultr
+```bash
+# Cloud Compute: $6/mes
+# 1GB RAM, 1 CPU, 25GB SSD
+```
 
-### 3.1 Actualizar configuración del backend
-El archivo `backend/database.py` ya está configurado para usar PostgreSQL en producción.
+## 📋 Pasos para Despliegue
 
-### 3.2 Actualizar configuración del frontend
-El archivo `frontend/src/api/axios.js` ya está configurado para usar variables de entorno.
+### 1. Crear Servidor
+```bash
+# Crear droplet/servidor con Ubuntu 22.04
+# Configurar SSH key
+# Actualizar sistema
+sudo apt update && sudo apt upgrade -y
+```
 
----
+### 2. Instalar Docker
+```bash
+# Instalar Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
 
-## 🌐 PASO 4: CONFIGURAR DOMINIO PERSONALIZADO (OPCIONAL)
+# Instalar Docker Compose
+sudo apt install docker-compose-plugin -y
 
-### 4.1 Dominio gratuito
-- Usa el dominio de Railway: `tu-proyecto.up.railway.app`
-- Usa el dominio de Vercel: `tu-proyecto.vercel.app`
+# Agregar usuario a grupo docker
+sudo usermod -aG docker $USER
+```
 
-### 4.2 Dominio personalizado (cuando tengas ingresos)
-1. Compra un dominio (ej: nutriyess.com)
-2. Configura DNS en Railway y Vercel
-3. SSL automático incluido
+### 3. Configurar Dominio (Opcional)
+```bash
+# Comprar dominio (ej: nutriyess.com)
+# Configurar DNS A record apuntando a tu servidor
+# Configurar SSL con Let's Encrypt
+```
 
----
+### 4. Desplegar Aplicación
+```bash
+# Clonar repositorio
+git clone https://github.com/fabioulloa06/nutriyess.git
+cd nutriyess
 
-## 📊 MONITOREO Y ESCALAMIENTO
+# Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus valores
 
-### Límites gratuitos:
-- **Railway:** 500 horas/mes (suficiente para empezar)
-- **Vercel:** 100GB bandwidth/mes
-- **PostgreSQL:** 1GB de almacenamiento
+# Iniciar servicios
+docker-compose -f docker-compose.prod.yml up -d
+```
 
-### Cuando necesites escalar:
-- **Railway Pro:** $5/mes (más horas y recursos)
-- **Vercel Pro:** $20/mes (más bandwidth y funciones)
-- **PostgreSQL:** $5/mes (más almacenamiento)
+### 5. Configurar Vercel
+```bash
+# En Vercel, agregar variable de entorno:
+VITE_API_URL = https://tu-dominio.com/api
+```
 
----
+## 🔒 Seguridad
 
-## 🎯 ESTRATEGIA DE COMERCIALIZACIÓN
+### Variables de Entorno (.env)
+```bash
+# Base de datos
+DB_PASSWORD=tu-password-super-seguro
 
-### Fase 1: MVP Gratuito (0-3 meses)
-- Usa servicios gratuitos
-- Enfócate en conseguir primeros clientes
-- Valida el producto en el mercado
+# JWT
+JWT_SECRET_KEY=tu-jwt-secret-muy-largo-y-seguro
 
-### Fase 2: Crecimiento (3-6 meses)
-- Actualiza a planes básicos ($10-20/mes)
-- Implementa características premium
-- Establece precios de suscripción
+# Dominio
+DOMAIN=tu-dominio.com
+```
 
-### Fase 3: Escalamiento (6+ meses)
-- Migra a AWS/Azure para mayor control
-- Implementa características empresariales
-- Expande a múltiples países
+### Firewall
+```bash
+# Configurar UFW
+sudo ufw allow 22    # SSH
+sudo ufw allow 80    # HTTP
+sudo ufw allow 443   # HTTPS
+sudo ufw enable
+```
 
----
+## 📊 Monitoreo
 
-## 💰 MODELO DE PRECIOS SUGERIDO
+### Logs
+```bash
+# Ver logs en tiempo real
+docker-compose -f docker-compose.prod.yml logs -f
 
-### Plan Básico: $29/mes
-- Hasta 50 pacientes
-- Funciones básicas
-- Soporte por email
+# Logs específicos
+docker-compose -f docker-compose.prod.yml logs -f backend
+```
 
-### Plan Profesional: $79/mes
-- Hasta 200 pacientes
-- Todas las funciones
-- Soporte prioritario
-- Reportes avanzados
+### Backup de Base de Datos
+```bash
+# Backup automático (cron job)
+0 2 * * * docker-compose -f docker-compose.prod.yml exec -T db pg_dump -U nutriyess nutriyess > backup_$(date +\%Y\%m\%d).sql
+```
 
-### Plan Empresarial: $199/mes
-- Pacientes ilimitados
-- API personalizada
-- Integraciones
-- Soporte dedicado
+## 💰 Costos Estimados
 
----
+### Opción Económica (Recomendada)
+- **Servidor**: $6/mes (DigitalOcean)
+- **Dominio**: $12/año (opcional)
+- **SSL**: GRATIS (Let's Encrypt)
+- **Frontend**: GRATIS (Vercel)
+- **Total**: ~$7/mes
 
-## 🚀 PRÓXIMOS PASOS
+### Opción Profesional
+- **Servidor**: $20/mes (más recursos)
+- **Dominio**: $12/año
+- **CDN**: $5/mes (CloudFlare)
+- **Monitoreo**: $10/mes (opcional)
+- **Total**: ~$35/mes
 
-1. **Hoy:** Configura Railway y Vercel
-2. **Esta semana:** Prueba el despliegue
-3. **Próximo mes:** Consigue primeros clientes beta
-4. **3 meses:** Lanza comercialmente
+## 🎯 Ventajas de esta Arquitectura
 
-¡Tu aplicación estará lista para comercializar en menos de 1 hora!
+✅ **Frontend en Vercel**: CDN global, SSL automático, despliegue automático
+✅ **Backend en Docker**: Control total, escalable, profesional
+✅ **Base de datos incluida**: PostgreSQL en el mismo servidor
+✅ **Costo predecible**: Sin sorpresas de Railway
+✅ **Escalable**: Puedes agregar más recursos cuando necesites
+✅ **Profesional**: Arquitectura de producción real
+
+## 🚀 Próximos Pasos
+
+1. **Elegir proveedor** de servidor
+2. **Crear servidor** y configurar Docker
+3. **Desplegar backend** con docker-compose
+4. **Configurar dominio** y SSL
+5. **Actualizar Vercel** con nueva URL del backend
+6. **¡Listo para producción!**
