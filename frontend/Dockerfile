@@ -1,26 +1,20 @@
-# Frontend Dockerfile
+# Dockerfile para Frontend NutriYess
 FROM node:18-alpine
 
-# Set working directory
+# Establecer directorio de trabajo
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copiar package.json y package-lock.json
+COPY frontend/package*.json ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Instalar dependencias
+RUN npm install
 
-# Copy source code
-COPY . .
+# Copiar código fuente
+COPY frontend/ .
 
-# Build the application
-RUN npm run build
-
-# Install serve to run the app
-RUN npm install -g serve
-
-# Expose port
+# Exponer puerto
 EXPOSE 3000
 
-# Start the application
-CMD ["serve", "-s", "dist", "-l", "3000"]
+# Comando de inicio
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

@@ -1,61 +1,54 @@
 version: '3.8'
 
 services:
-  # PostgreSQL Database
+  # Base de datos PostgreSQL
   db:
-    image: postgres:15-alpine
+    image: postgres:15
     environment:
       POSTGRES_DB: nutriyess
-      POSTGRES_USER: nutriyess_user
-      POSTGRES_PASSWORD: nutriyess_password
+      POSTGRES_USER: nutriyess
+      POSTGRES_PASSWORD: nutriyess123
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U nutriyess_user -d nutriyess"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      test: ["CMD-SHELL", "pg_isready -U nutriyess"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # Backend API
+  # Backend FastAPI
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     environment:
-      DATABASE_URL: postgresql://nutriyess_user:nutriyess_password@db:5432/nutriyess
-      ENVIRONMENT: production
-      DEBUG: False
+      DATABASE_URL: postgresql://nutriyess:nutriyess123@db:5432/nutriyess
+      JWT_SECRET_KEY: your-super-secret-jwt-key-change-in-production
     ports:
       - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
     volumes:
-      - ./backend/uploads:/app/uploads
-    restart: unless-stopped
+      - ./backend:/app
+    command: ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
-  # Frontend
+  # Frontend React
   frontend:
-    build: ./frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    environment:
+      VITE_API_URL: http://localhost:8000/api
     ports:
       - "3000:3000"
     depends_on:
       - backend
-    restart: unless-stopped
-
-  # Nginx Reverse Proxy
-  nginx:
-    image: nginx:alpine
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./ssl:/etc/nginx/ssl
-    depends_on:
-      - frontend
-      - backend
-    restart: unless-stopped
+      - ./frontend:/app
+      - /app/node_modules
 
 volumes:
   postgres_data:
